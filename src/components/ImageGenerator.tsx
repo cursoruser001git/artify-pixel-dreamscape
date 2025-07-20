@@ -16,7 +16,6 @@ interface GenerationParams {
   height: number;
   enhance: boolean;
   transparent: boolean;
-  apiKey: string;
 }
 
 const ImageGenerator = () => {
@@ -27,7 +26,6 @@ const ImageGenerator = () => {
     height: 1024,
     enhance: false,
     transparent: false,
-    apiKey: '',
   });
   
   const [isLoading, setIsLoading] = useState(false);
@@ -48,10 +46,6 @@ const ImageGenerator = () => {
       seed: Math.floor(Math.random() * 1000000).toString(),
       nofeed: 'true',
     });
-
-    if (params.apiKey) {
-      searchParams.append('key', params.apiKey);
-    }
 
     if (params.enhance) {
       searchParams.append('enhance', 'true');
@@ -152,21 +146,6 @@ const ImageGenerator = () => {
                 onChange={(e) => setParams(prev => ({ ...prev, prompt: e.target.value }))}
                 className="min-h-[100px] bg-background/50 border-border resize-none focus:ring-2 focus:ring-primary transition-all"
                 required
-              />
-            </div>
-
-            {/* API Key */}
-            <div className="space-y-2">
-              <Label htmlFor="apiKey" className="text-sm font-medium">
-                Pollinations API Key (Optional)
-              </Label>
-              <Input
-                id="apiKey"
-                type="password"
-                placeholder="Enter your Pollinations API key"
-                value={params.apiKey}
-                onChange={(e) => setParams(prev => ({ ...prev, apiKey: e.target.value }))}
-                className="bg-background/50 border-border"
               />
             </div>
 
