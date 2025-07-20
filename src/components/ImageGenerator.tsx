@@ -42,6 +42,8 @@ const ImageGenerator = () => {
       height: params.height.toString(),
       nologo: 'true',
       safe: 'true',
+      seed: Math.floor(Math.random() * 1000000).toString(),
+      nofeed: 'true',
     });
 
     if (params.enhance) {
