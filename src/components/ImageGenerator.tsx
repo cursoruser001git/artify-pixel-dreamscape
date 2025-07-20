@@ -16,6 +16,7 @@ interface GenerationParams {
   height: number;
   enhance: boolean;
   transparent: boolean;
+  apiKey: string;
 }
 
 const ImageGenerator = () => {
@@ -26,6 +27,7 @@ const ImageGenerator = () => {
     height: 1024,
     enhance: false,
     transparent: false,
+    apiKey: '',
   });
   
   const [isLoading, setIsLoading] = useState(false);
@@ -42,9 +44,14 @@ const ImageGenerator = () => {
       height: params.height.toString(),
       nologo: 'true',
       safe: 'true',
+      private: 'true',
       seed: Math.floor(Math.random() * 1000000).toString(),
       nofeed: 'true',
     });
+
+    if (params.apiKey) {
+      searchParams.append('key', params.apiKey);
+    }
 
     if (params.enhance) {
       searchParams.append('enhance', 'true');
@@ -148,6 +155,21 @@ const ImageGenerator = () => {
               />
             </div>
 
+            {/* API Key */}
+            <div className="space-y-2">
+              <Label htmlFor="apiKey" className="text-sm font-medium">
+                Pollinations API Key (Optional)
+              </Label>
+              <Input
+                id="apiKey"
+                type="password"
+                placeholder="Enter your Pollinations API key"
+                value={params.apiKey}
+                onChange={(e) => setParams(prev => ({ ...prev, apiKey: e.target.value }))}
+                className="bg-background/50 border-border"
+              />
+            </div>
+
             {/* Model Selection */}
             <div className="space-y-2">
               <Label htmlFor="model" className="text-sm font-medium">
@@ -162,7 +184,6 @@ const ImageGenerator = () => {
                 </SelectTrigger>
                 <SelectContent className="bg-popover border-border">
                   <SelectItem value="flux">Flux - High Quality</SelectItem>
-                  <SelectItem value="kontext">Kontext - Creative</SelectItem>
                   <SelectItem value="turbo">Turbo - Fast Generation</SelectItem>
                   <SelectItem value="gptimage">GPT Image - Detailed</SelectItem>
                 </SelectContent>
